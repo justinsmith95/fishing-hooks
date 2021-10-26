@@ -4,19 +4,19 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
+    Link,
     AppContext,
 } from "react-router-dom";
-import Header from 'Header';
+import FishHeader from './FishHeader';
 import LogInForm from './LogInForm';
-import RegisterForm from '.RegisterForm';
+import RegisterForm from './RegisterForm';
 //import Home from './Home'
 
 function App() {
     return (
-        <div className="App">
             <Router>
                 {/* <AppContext.Provider value={InitialContext}> */}
-                    <Header />
+                    <FishHeader />
 
                     <Switch>
                         <Route path="/log-in">
@@ -34,7 +34,6 @@ function App() {
 
                 {/* </AppContext.Provider> */}
             </Router>
-        </div>
     );
 }
 

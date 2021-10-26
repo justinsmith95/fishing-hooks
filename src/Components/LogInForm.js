@@ -1,13 +1,12 @@
-import App from './App';
+import React from 'react'
 import {
     Form,
-  Button
+    Button
+} from "react-bootstrap";
 
-} from "react-router-dom";
+export default function LogInForm() {
 
-export function LogInForm() {
-
-    return(
+    return (
 
 <Form>
   <Form.Group className="mb-3" controlId="formBasicEmail">
