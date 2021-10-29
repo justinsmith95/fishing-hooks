@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 
 
-export default function Home() {
+export default function Home(props) {
     
     
     let history = useHistory();
@@ -16,9 +16,8 @@ export default function Home() {
     const RegisterButton = () => {
         history.push("/RegisterForm");
     }
-
-    return(
-        <div>
+            return(
+                <div>
 
         <p>
                     {/* {//*make log in log out same button change based on status* */}You must <Link to="/LogInForm">Log In</Link> to shop
@@ -33,5 +32,6 @@ export default function Home() {
 </div>
 
 
-    )
+)
+
 }

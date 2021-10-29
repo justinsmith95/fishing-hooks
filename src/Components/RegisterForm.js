@@ -5,9 +5,11 @@ import {
     Button
 } from "react-bootstrap"
 import axios from "axios"
+import {useHistory} from "react-router-dom"
 
-export default function RegisterForm() {
+export default function RegisterForm(props) {
     const [data, setData] = useState({})
+    const history = useHistory()
     const [validated, setValidated] = useState({
         emailAddress: 0,
         confirmEmailAddress: 0,
@@ -15,8 +17,7 @@ export default function RegisterForm() {
         confirmPassword: 0
     })
     const [error, setError] = useState(0)
-    const [userToken, setUserToken] = useState("");
-
+    // const [userToken, setUserToken] = useState("");
     const handleChange = (e) => setData(prevState => ({
         ...prevState,
         [e.target.id]: e.target.value
@@ -67,7 +68,7 @@ export default function RegisterForm() {
             }
         }
         if (data.password) {
-            if (data.password.length > 5) {
+            if (data.password.length > 7) {
                 setValidated(prevState => ({
                     ...prevState,
                     password: 1
@@ -106,33 +107,44 @@ export default function RegisterForm() {
         data.confirmPassword
         ])
 
+    const registerAPI_URL = "https://port-3000-aincbootcampapi-ianrios529550.codeanyapp.com/api/auth/register";
+
+    const postNewUser = () => {
+        axios.post(registerAPI_URL, {
+            name: data.emailAddress,
+            email: data.emailAddress,
+            password: data.password
+        })
+            .then(function (response) {
+                console.log(response);
+                let userToken = response.data.data.token
+                // setUserToken(response.data.data.token)
+                localStorage.setItem("userToken", userToken)
+                props.setToken(userToken)
+                history.push("/dashboard")
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+        console.log(data)
+    }
+
+    // headers: {    'Accept': 'application/json',    'Content-Type': 'application/json',    'Access-Control-Allow-Origin': '*', }   // 'Access-Control-Allow-Headers': 'Content-Type',    // 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',    // 'Access-Control-Allow-Credentials': true,    'Authorization': 'Bearer ' + token   },
+
+
+
     const submitRegisterForm = (e) => {
-         e.preventDefault();
+        e.preventDefault();
         // //package data to send to api
         console.log(validated.emailAddress)
         console.log(validated.password)
-        if((validated.emailAddress === 1) &&
+        if ((validated.emailAddress === 1) &&
             (validated.confirmEmailAddress === 1) &&
             (validated.password === 1) &&
-            (validated.confirmPassword) === 1){
-
-                const registerAPI_URL = "https://port-3000-aincbootcampapi-ianrios529550.codeanyapp.com/api/auth/register";
-                axios.post(registerAPI_URL, {
-                    name: data.emailAddress,
-                    email: data.emailAddress,
-                    password: data.password
-                })
-                .then(function (response) {
-                    console.log(response);
-                    setUserToken(response.data.data.token)
-                })
-                .catch(function (error) {
-                    console.log(error)
-                })
-                        console.log(data)
-                    }
+            (validated.confirmPassword) === 1) {
+            postNewUser();
+        }
     }
-
 
     //   const handleSubmit = () => {
     //       event.preventDefault();
@@ -192,7 +204,7 @@ export default function RegisterForm() {
                             : "null"}
                 />
                 <Form.Text className="text-muted">
-                    Choose a password (Must be at least 5 characters)
+                    Choose a password (Must be at least 8 characters)
     </Form.Text>
             </Form.Group>
 
