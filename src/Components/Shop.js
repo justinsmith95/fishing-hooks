@@ -6,7 +6,7 @@ return(
 
 
     <p>
-        buy shit here
+        buy fishing stuff here
     </p>
 )
 
